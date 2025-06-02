@@ -10,7 +10,8 @@ const axiosInstance = axios.create({
 
 
 const authService = {
-    register: (payload) => axiosInstance.post('/register', payload)
+    register: (payload) => axiosInstance.post('/register', payload),
+    login: (payload) => axiosInstance.post('/login', payload),
 }
 
 export default authService;

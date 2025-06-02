@@ -1,10 +1,10 @@
 import AuthLayout from '@/components/layouts/authlayout/AuthLayout';
-import Register from '@/components/views/Register/index';
+import Login from '@/components/views/Login/index';
 
 const RegisterPage = () => {
   return (
     <AuthLayout>
-      <Register />
+      <Login />
     </AuthLayout>
   )
 };

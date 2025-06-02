@@ -1,39 +1,30 @@
-import React, { useState } from 'react';
+import React from 'react';
+import useRegister from './useRegister';
+import Swal from 'sweetalert2';
 
 const Register = () => {
-  const [errors, setErrors] = useState([]);
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const form = e.target;
-    const name = form.name.value;
-    const email = form.email.value;
-    const password = form.password.value;
-    const confirmPassword = form.confirmPassword.value;
-    const newErrors = [];
-
-    // Email validation (simple regex)
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      newErrors.push('Invalid email address');
-    }
-    // Password length validation
-    if (password.length < 6) {
-      newErrors.push('Password must be at least 6 characters');
-    }
-    // Password match validation
-    if (password !== confirmPassword) {
-      newErrors.push('Passwords do not match');
-    }
-    setErrors(newErrors);
-    if (newErrors.length === 0) {
-      console.log({ name, email, password, confirmPassword });
-    }
-  };
+  const { errors, processRegister } = useRegister();
 
   return (
     <>
       <h2 className="text-2xl font-bold mb-6 text-black">Register</h2>
-      <form className="space-y-4" onSubmit={handleSubmit}>
+      <form className="space-y-4" onSubmit={e => {
+        e.preventDefault();
+        const form = e.target;
+        const username = form.username.value;
+        const fullName = form.name.value;
+        const email = form.email.value;
+        const password = form.password.value;
+        const confirmPassword = form.confirmPassword.value;
+        processRegister({ fullName, username, email, password, confirmPassword }, () => {
+          Swal.fire({
+            icon: 'success',
+            title: 'Registration successful!',
+            showConfirmButton: false,
+            timer: 1500
+          });
+        });
+      }}>
         <div>
           <label className="block text-md font-medium mb-1" htmlFor="name">Name</label>
           <input
@@ -42,6 +33,16 @@ const Register = () => {
             type="text"
             className="w-full border border-gray-300 rounded px-3 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
             placeholder="Your Name"
+          />
+        </div>
+        <div>
+          <label className="block text-md font-medium mb-1" htmlFor="username">Username</label>
+          <input
+            id="username"
+            name="username"
+            type="text"
+            className="w-full border border-gray-300 rounded px-3 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder="Username"
           />
         </div>
         <div>
