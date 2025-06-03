@@ -15,15 +15,14 @@ export const authOptions = {
           const payload = {
             userIdentifier: credentials.userIdentifier,
             password: credentials.password,
-          };          // Use authService for login
+          };          // pake authService buat login
           const response = await authService.login(payload);
           
-          // Extract token from response based on the exact structure:
-          // { "message": "Login success", "data": { "token": "..." } }
+
           const token = response.data?.data?.token;
           
           if (token) {
-            // Try to decode the JWT to get user data
+            // decrypt jwt token jadi user data
             try {
               const base64Payload = token.split('.')[1];
               const payload = Buffer.from(base64Payload, 'base64').toString('utf8');
@@ -37,7 +36,7 @@ export const authOptions = {
                 userData: userData
               };
             } catch (e) {
-              // If we can't decode the token, just return basic info
+              // callback kalau gagal decrypt jwt token
               return {
                 id: "user-id",
                 token: token,
@@ -63,19 +62,13 @@ export const authOptions = {
   },
     callbacks: {
     async jwt({ token, user }) {
-      // Only update token when user is first authenticated
       if (user) {
-        // Store the access token from the backend
         token.accessToken = user.token;
-        
-        // Store user information
         token.name = user.name;
         token.email = user.email;
         
-        // Store any JWT payload data if available
         if (user.userData) {
           token.userData = user.userData;
-          // Set expiry based on JWT exp if available
           if (user.userData.exp) {
             token.exp = user.userData.exp;
           }
@@ -84,20 +77,14 @@ export const authOptions = {
       return token;
     },
     async session({ session, token }) {
-      // Add token to session so client can use it
       session.accessToken = token.accessToken;
-      
-      // Set user information in the session
       if (token.name) session.user.name = token.name;
       if (token.email) session.user.email = token.email;
       
-      // Add JWT payload data to the session if available
       if (token.userData) {
-        // Add useful JWT payload data to session.user
         session.user.username = token.userData.username || session.user.name;
         session.user.email = token.userData.email || session.user.email;
         
-        // Store the token payload data for reference
         session.user.tokenData = token.userData;
       }
       
@@ -105,7 +92,6 @@ export const authOptions = {
     }
   },
   
-  // Only enable debug in development
   debug: process.env.NODE_ENV === 'development',
 };
 
