@@ -50,6 +50,7 @@ const HomeAuthenticated = ({ session }) => {
                 <div className="mt-2 text-sm">
                   <p><span className="font-medium">Username:</span> {session.user.tokenData.username}</p>
                   <p><span className="font-medium">Email:</span> {session.user.tokenData.email}</p>
+                  <p><span className="font-medium">Role:</span> {session.user.tokenData.role}</p>
                   {session.user.tokenData.exp && (
                     <p><span className="font-medium">Expires:</span> {new Date(session.user.tokenData.exp * 1000).toLocaleString()}</p>
                   )}
