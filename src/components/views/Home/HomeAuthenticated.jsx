@@ -1,8 +1,14 @@
 import React from 'react';
 import { signOut } from 'next-auth/react';
+import { useRouter } from 'next/router';
 
 const HomeAuthenticated = ({ session }) => {
+  const router = useRouter();
   const handleSignOut = () => signOut({ redirect: true, callbackUrl: '/' });
+  
+  const handleManageFleet = () => {
+    router.push('/vehicle');
+  };
   
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-br from-blue-50 to-blue-200 p-8">
@@ -29,10 +35,13 @@ const HomeAuthenticated = ({ session }) => {
           
           {/* Dashboard sections */}
           <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="bg-blue-50 p-4 rounded-lg border border-blue-200 hover:shadow-md">
+            <button 
+              onClick={handleManageFleet}
+              className="bg-blue-50 p-4 rounded-lg border border-blue-200 hover:shadow-md hover:bg-blue-100 transition-colors text-left w-full"
+            >
               <h3 className="font-bold text-blue-800">Manage Fleet</h3>
               <p className="text-blue-600 text-sm">View and manage your vehicle fleet</p>
-            </div>
+            </button>
             <div className="bg-blue-50 p-4 rounded-lg border border-blue-200 hover:shadow-md">
               <h3 className="font-bold text-blue-800">Driver Management</h3>
               <p className="text-blue-600 text-sm">Manage your drivers and assignments</p>
