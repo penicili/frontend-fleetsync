@@ -5,7 +5,6 @@ import { useSession } from 'next-auth/react';
 export default function IndexPage() {
   const { data: session, status } = useSession();
   
-  // Show loading state while checking authentication
   if (status === "loading") {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-blue-200">
@@ -14,6 +13,5 @@ export default function IndexPage() {
     );
   }
   
-  // Show authenticated or unauthenticated UI based on session
   return session ? <HomeAuthenticated session={session} /> : <Home />;
 }
