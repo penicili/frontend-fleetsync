@@ -95,4 +95,8 @@ const vehicleServiceGateway = {
   },
 }
 
+const driverServiceGateway = {
+  
+}
+
 export default vehicleServiceGateway;

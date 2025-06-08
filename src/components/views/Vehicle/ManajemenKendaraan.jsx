@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { PlusIcon, PencilIcon, TrashIcon } from '@heroicons/react/24/outline';
+import { PlusIcon, PencilIcon, TrashIcon, HomeIcon } from '@heroicons/react/24/outline';
 import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/router';
 import Swal from 'sweetalert2';
 import ModalKendaraan from './ModalKendaraan';
 import useVehicle from './useVehicle';
@@ -8,9 +9,14 @@ import { getToken } from '@/utils/sessionStorage';
 
 const ManajemenKendaraan = () => {  // Get the session directly from useSession as a fallback
   const { data: sessionDirect } = useSession();
+  const router = useRouter();
   
   // Check if we have a token in session storage
   const storedToken = getToken();
+  
+  const handleBackToHome = () => {
+    router.push('/');
+  };
     const { 
     vehicles, 
     loading, 
@@ -72,9 +78,18 @@ const ManajemenKendaraan = () => {  // Get the session directly from useSession 
         });
       }
     }
-  };
-  return (
+  };  return (
     <div className="container mx-auto px-4 py-8">
+      <div className="flex items-center mb-6">
+        <button
+          onClick={handleBackToHome}
+          className="mr-4 px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg flex items-center transition-colors"
+        >
+          <HomeIcon className="h-5 w-5 mr-2" />
+          Kembali ke Beranda
+        </button>
+      </div>
+      
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold text-gray-900">Manajemen Kendaraan</h1>
         <button

@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { signOut } from 'next-auth/react';
 import { useRouter } from 'next/router';
 
 const HomeAuthenticated = ({ session }) => {
   const router = useRouter();
+  const [showAuthDetails, setShowAuthDetails] = useState(false);
   const handleSignOut = () => signOut({ redirect: true, callbackUrl: '/' });
   
   const handleManageFleet = () => {
@@ -46,22 +47,42 @@ const HomeAuthenticated = ({ session }) => {
               <h3 className="font-bold text-blue-800">Driver Management</h3>
               <p className="text-blue-600 text-sm">Manage your drivers and assignments</p>
             </div>
-          </div>
-            {/* Token display */}
+          </div>            {/* Token display */}
           {session.accessToken && (
-            <div className="mt-8 p-4 bg-gray-50 rounded-lg">
-              <div className="flex justify-between items-center mb-2">
+            <div className="mt-8 p-4 bg-gray-50 rounded-lg">              <div 
+                className="flex justify-between items-center mb-2 cursor-pointer"
+                onClick={() => setShowAuthDetails(!showAuthDetails)}
+              >
                 <h3 className="font-semibold text-gray-700">Authentication Details</h3>
-                <span className="px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full">Active</span>
+                <button className="text-blue-600 hover:text-blue-800 text-sm flex items-center transition-all duration-300 ease-in-out">
+                  <span>{showAuthDetails ? 'Hide Details' : 'Show Details'}</span>
+                  <svg 
+                    xmlns="http://www.w3.org/2000/svg" 
+                    width="16" 
+                    height="16" 
+                    viewBox="0 0 24 24" 
+                    fill="none" 
+                    stroke="currentColor" 
+                    strokeWidth="2" 
+                    strokeLinecap="round" 
+                    strokeLinejoin="round"
+                    className={`ml-1 transition-transform duration-300 ${showAuthDetails ? 'rotate-180' : 'rotate-0'}`}
+                  >
+                    <polyline points="6 9 12 15 18 9"></polyline>
+                  </svg>
+                </button>
               </div>
-              
-              {session.user.tokenData && (
-                <div className="mt-2 text-sm">
-                  <p><span className="font-medium">Username:</span> {session.user.tokenData.username}</p>
-                  <p><span className="font-medium">Email:</span> {session.user.tokenData.email}</p>
-                  <p><span className="font-medium">Role:</span> {session.user.tokenData.role}</p>
+                {session.user.tokenData && (
+                <div 
+                  className={`mt-2 text-sm overflow-hidden transition-all duration-300 ease-in-out ${
+                    showAuthDetails ? 'max-h-40 opacity-100' : 'max-h-0 opacity-0'
+                  }`}
+                >
+                  <p className="my-1"><span className="font-medium">Username:</span> {session.user.tokenData.username}</p>
+                  <p className="my-1"><span className="font-medium">Email:</span> {session.user.tokenData.email}</p>
+                  <p className="my-1"><span className="font-medium">Role:</span> {session.user.tokenData.role}</p>
                   {session.user.tokenData.exp && (
-                    <p><span className="font-medium">Expires:</span> {new Date(session.user.tokenData.exp * 1000).toLocaleString()}</p>
+                    <p className="my-1"><span className="font-medium">Expires:</span> {new Date(session.user.tokenData.exp * 1000).toLocaleString()}</p>
                   )}
                 </div>
               )}
