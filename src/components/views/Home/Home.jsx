@@ -13,7 +13,7 @@ const Home = () => (
                     Platform internal perusahaan untuk manajemen armada, pengemudi, dan rute perjalanan. Dirancang khusus untuk mendukung efisiensi, keamanan, dan kolaborasi antar tim di lingkungan korporasi Anda.
                 </p>
                 <div className="flex gap-4">
-                    <a href="/auth/register" className="inline-block bg-blue-700 hover:bg-blue-800 text-white font-bold px-8 py-3 rounded-lg shadow-lg transition-colors duration-200 text-lg">
+                    <a href="/auth/login" className="inline-block bg-blue-700 hover:bg-blue-800 text-white font-bold px-8 py-3 rounded-lg shadow-lg transition-colors duration-200 text-lg">
                         Mulai Sekarang
                     </a>
                     <a
