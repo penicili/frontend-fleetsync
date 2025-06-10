@@ -14,7 +14,7 @@ RUN npm install
 COPY . .
 
 # copy env file (i know this i bad practice, but idk how to do it better without breaking things up ok so sybau)
-COPY .env.local .env
+# COPY .env.local .env
 
 # expose port
 EXPOSE 3000
